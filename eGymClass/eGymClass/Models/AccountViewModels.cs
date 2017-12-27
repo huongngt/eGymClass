@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace eGymClass.Models
@@ -79,6 +80,18 @@ namespace eGymClass.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Display(Name = "Full Name")]
+        public string FullName { get { return FirstName + " " + LastName; } }
+
+        [Display(Name = "Registration time")]
+        public DateTime TimeOfRegistration { get; set; }
     }
 
     public class ResetPasswordViewModel

@@ -140,7 +140,7 @@ namespace eGymClass.Controllers
                 db.SaveChanges();
             }
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new {id = id });
         }
 
        
