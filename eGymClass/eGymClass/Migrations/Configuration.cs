@@ -1,5 +1,8 @@
 namespace eGymClass.Migrations
 {
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.EntityFramework;
+    using Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -14,18 +17,26 @@ namespace eGymClass.Migrations
 
         protected override void Seed(eGymClass.Models.ApplicationDbContext context)
         {
-            //  This method will be called after migrating to the latest version.
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+            if (!context.Users.Any(u => u.UserName == "admin@gymbooking.se"))
+            {
+                var roleStore = new RoleStore<IdentityRole>(context);
+                var roleManager = new RoleManager<IdentityRole>(roleStore);
+                roleManager.Create(new IdentityRole { Name = "admin" });
+
+                var userStore = new UserStore<ApplicationUser>(context);
+                var userManager = new UserManager<ApplicationUser>(userStore);
+
+                var user = new ApplicationUser { UserName = "admin@gymbooking.se", Email = "admin@gymbooking.se" };
+                var result = userManager.Create(user, "password");
+                userManager.AddToRole(user.Id, "admin");
+            }
+
+            context.GymClasses.AddOrUpdate(c => c.Name,
+                new GymClass { Name = "Morning Class", Description = "Morning Class", StartTime = DateTime.Now, Duration = TimeSpan.FromMinutes(45) },
+                new GymClass { Name = "Evening Class", Description = "Evening Class", StartTime = DateTime.Now, Duration = TimeSpan.FromMinutes(60) }
+
+                );
         }
     }
 }

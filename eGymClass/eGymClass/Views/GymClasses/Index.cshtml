@@ -47,11 +47,14 @@
                 @if (Request.IsAuthenticated)
                 {
                     <span>|</span>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id })
-                    <span>|</span>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    <span>|</span>
                     @Html.ActionLink("Attend", "BookingToggle", new { id = item.Id })
+                    if (User.IsInRole("admin"))
+                    {
+                        <span>|</span>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+                        <span>|</span>
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    }
                 }
             </td>
         </tr>
