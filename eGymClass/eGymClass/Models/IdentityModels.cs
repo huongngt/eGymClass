@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.Collections.Generic;
 
 namespace eGymClass.Models
 {
@@ -16,6 +17,8 @@ namespace eGymClass.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public virtual ICollection<GymClass> AttendedClasses { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -29,5 +32,7 @@ namespace eGymClass.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<eGymClass.Models.GymClass> GymClasses { get; set; }
     }
 }
