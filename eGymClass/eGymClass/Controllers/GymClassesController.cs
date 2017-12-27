@@ -36,6 +36,7 @@ namespace eGymClass.Controllers
         }
 
         // GET: GymClasses/Create
+        [Authorize]
         public ActionResult Create()
         {
             return View();
@@ -44,6 +45,7 @@ namespace eGymClass.Controllers
         // POST: GymClasses/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,StartTime,Duration,Description")] GymClass gymClass)
@@ -59,6 +61,7 @@ namespace eGymClass.Controllers
         }
 
         // GET: GymClasses/Edit/5
+        [Authorize]
         public ActionResult Edit(int? id)
         {
             if (id == null)
@@ -78,6 +81,7 @@ namespace eGymClass.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult Edit([Bind(Include = "Id,Name,StartTime,Duration,Description")] GymClass gymClass)
         {
             if (ModelState.IsValid)
@@ -90,6 +94,7 @@ namespace eGymClass.Controllers
         }
 
         // GET: GymClasses/Delete/5
+        [Authorize]
         public ActionResult Delete(int? id)
         {
             if (id == null)
@@ -107,6 +112,7 @@ namespace eGymClass.Controllers
         // POST: GymClasses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public ActionResult DeleteConfirmed(int id)
         {
             GymClass gymClass = db.GymClasses.Find(id);
@@ -115,6 +121,7 @@ namespace eGymClass.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize]
         public ActionResult BookingToggle(int id)
         {
             GymClass currentClass = db.GymClasses.Where(g => g.Id == id).FirstOrDefault();
