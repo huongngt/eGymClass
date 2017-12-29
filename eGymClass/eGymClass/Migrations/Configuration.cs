@@ -58,8 +58,12 @@ namespace eGymClass.Migrations
             }
 
             context.GymClasses.AddOrUpdate(c => c.Name,
-                new GymClass { Name = "Morning Class", Description = "Morning Class", StartTime = DateTime.Now, Duration = TimeSpan.FromMinutes(45) },
-                new GymClass { Name = "Evening Class", Description = "Evening Class", StartTime = DateTime.Now, Duration = TimeSpan.FromMinutes(60) }
+                new GymClass { Name = "Day Class 1", Description = "Morning Class", StartTime = DateTime.Now, Duration = TimeSpan.FromMinutes(45) },
+                new GymClass { Name = "Day Class 2", Description = "Morning Class", StartTime = DateTime.Now.AddHours(5), Duration = TimeSpan.FromMinutes(30) },
+                new GymClass { Name = "Day Class 3", Description = "Morning Class", StartTime = DateTime.Now.AddDays(2), Duration = TimeSpan.FromMinutes(60) },
+                new GymClass { Name = "Evening Class 1", Description = "Evening Class", StartTime = DateTime.Now, Duration = TimeSpan.FromMinutes(50) },
+                new GymClass { Name = "Evening Class 2", Description = "Evening Class", StartTime = DateTime.Now.AddHours(5), Duration = TimeSpan.FromMinutes(90) },
+                new GymClass { Name = "Evening Class 3", Description = "Evening Class", StartTime = DateTime.Now.AddDays(2), Duration = TimeSpan.FromMinutes(70) }
 
                 );
         }

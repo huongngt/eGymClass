@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using eGymClass.Models;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
+using System.Data.Entity.Migrations;
 
 namespace eGymClass.Controllers
 {
@@ -17,9 +18,16 @@ namespace eGymClass.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: GymClasses
+        public ActionResult IndexAll()
+        {
+            var model = db.GymClasses.ToList();
+            return View(model);
+        }
+
         public ActionResult Index()
         {
-            return View(db.GymClasses.ToList());
+            var model = db.GymClasses.Where(c => c.StartTime >= DateTime.Now).ToList();
+            return View(model);
         }
 
         // GET: GymClasses/Details/5
@@ -143,7 +151,38 @@ namespace eGymClass.Controllers
             return RedirectToAction("Details", new {id = id });
         }
 
-       
+        [Authorize]
+        public ActionResult BookedClass()
+        {
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var userclass = user.AttendedClasses.Where(c => c.StartTime >= DateTime.Now);
+            return View("ClassList",userclass);
+                
+        }
+
+        [Authorize]
+        public ActionResult History()
+        {
+            var user = db.Users.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var userclass = user.AttendedClasses.Where(c => c.StartTime < DateTime.Now);
+            return View("ClassList", userclass);
+
+        }
+
+        //public ActionResult test()
+        //{
+        //    db.GymClasses.AddOrUpdate(c => c.Name,
+        //       new GymClass { Name = "Day Class 1", Description = "Morning Class", StartTime = DateTime.Now, Duration = TimeSpan.FromMinutes(45) },
+        //       new GymClass { Name = "Day Class 2", Description = "Morning Class", StartTime = DateTime.Now.AddHours(5), Duration = TimeSpan.FromMinutes(30) },
+        //       new GymClass { Name = "Day Class 3", Description = "Morning Class", StartTime = DateTime.Now.AddDays(2), Duration = TimeSpan.FromMinutes(60) },
+        //       new GymClass { Name = "Evening Class 1", Description = "Evening Class", StartTime = DateTime.Now, Duration = TimeSpan.FromMinutes(50) },
+        //       new GymClass { Name = "Evening Class 2", Description = "Evening Class", StartTime = DateTime.Now.AddHours(5), Duration = TimeSpan.FromMinutes(90) },
+        //       new GymClass { Name = "Evening Class 3", Description = "Evening Class", StartTime = DateTime.Now.AddDays(2), Duration = TimeSpan.FromMinutes(70) }
+
+        //       );
+        //    return View();
+        //}
+
 
         protected override void Dispose(bool disposing)
         {

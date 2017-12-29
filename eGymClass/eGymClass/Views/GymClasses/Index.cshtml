@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<eGymClass.Models.GymClass>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Current classes";
 }
 
-<h2>Index</h2>
+<h2>Current classes</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -47,7 +47,15 @@
                 @if (Request.IsAuthenticated)
                 {
                     <span>|</span>
-                    @Html.ActionLink("Attend", "BookingToggle", new { id = item.Id })
+                    if (!item.AttendingMembers.Any(u => u.UserName == User.Identity.Name))
+                    {
+                        @Html.ActionLink("Attend", "BookingToggle", new { id = item.Id })
+                    }
+                    else
+                    {
+                        @Html.ActionLink("Cancel", "BookingToggle", new { id = item.Id })
+                    }
+
                     if (User.IsInRole("admin"))
                     {
                         <span>|</span>
@@ -61,3 +69,5 @@
                 }
 
 </table>
+
+@Html.ActionLink("All classes", "IndexAll")

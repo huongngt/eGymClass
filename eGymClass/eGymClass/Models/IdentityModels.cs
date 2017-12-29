@@ -5,6 +5,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace eGymClass.Models
 {
@@ -19,10 +21,12 @@ namespace eGymClass.Models
             return userIdentity;
         }
 
-
+        [Required]
         public string FirstName { get; set; }
+        [Required]
         public string LastName { get; set; }
         public string FullName { get { return FirstName + " " + LastName; } }
+        [Column(TypeName ="datetime2")]
         public DateTime TimeOfRegistration { get; set; }
 
         public virtual ICollection<GymClass> AttendedClasses { get; set; }

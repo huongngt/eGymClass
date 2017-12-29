@@ -90,8 +90,6 @@ namespace eGymClass.Models
         [Display(Name = "Full Name")]
         public string FullName { get { return FirstName + " " + LastName; } }
 
-        [Display(Name = "Registration time")]
-        public DateTime TimeOfRegistration { get; set; }
     }
 
     public class ResetPasswordViewModel
